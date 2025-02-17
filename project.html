@@ -1,23 +1,103 @@
-<a href="form.html">home</a>
-
-<span style="color: red"><h3><P><br>the best project recieve prize  , car 
-     get R40000000 only thing to do is upload pictures and videos of your project </br>
-    <br>location</br>
-    <br>gauteng pretoria</br> 
-    <br>0008</br>
-    <br>244 walter sisulu crescent</br>
-</P></h3>
-
-
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Prize</title>
     <style type="text/css">
-      body{
-        background-image: url("form.jpg");        
-      }
+        /* Background styling with blur effect */
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: lime; /* Lime-colored text */
+        }
+
+        .background {
+            background-image: url("form.jpg");
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            filter: blur(10px); /* Blurry background effect */
+            z-index: -1; /* Places the background behind the content */
+        }
+
+        /* Rectangle box for Home link */
+        .home-box {
+            border: 3px solid red; /* Red border */
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8); /* Red glow effect */
+            width: 4cm; /* Set width to 4cm */
+        }
+
+        /* Link styling */
+        a {
+            color: lime; /* Lime-colored link */
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Content styling */
+        .content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for readability */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
     </style>
-  </head>
-  
+</head>
+<body>
+    <!-- Blurry background -->
+    <div class="background"></div>
 
+    <!-- Content -->
+    <div class="content">
+        <!-- Home link in a rectangle box -->
+        <div class="home-box">
+            <a href="form.html">Home</a>
+        </div>
 
+        <h3>
+            <p>
+                <br>The best project receives a prize: a car and R40,000,000!</br>
+                <br>All you need to do is upload pictures and videos of your project.</br>
+                <br>Location:</br>
+                <br>Gauteng, Pretoria</br>
+                <br>0008</br>
+                <br>244 Walter Sisulu Crescent</br>
+            </p>
+        </h3>
+    </div>
+</body>
+</html>
