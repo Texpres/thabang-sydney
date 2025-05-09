@@ -1,0 +1,778 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blurry Background</title>
+    <style type="text/css">
+        /* Full viewport height setup */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Blurry background styling */
+        .background {
+            background-image: url("ad.jpeg");
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Purple Accordion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f0ff 0%, #e9e1ff 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .accordion-container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .accordion {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .accordion-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(130, 10, 160, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accordion-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(130, 10, 160, 0.15);
+        }
+        
+        .accordion-input {
+            display: none;
+        }
+        
+        .accordion-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #8a2be2 0%, #6a0dad 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .accordion-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-label:hover {
+            background: linear-gradient(135deg, #9a3bf2 0%, #7a1dc7 100%);
+        }
+        
+        .accordion-label::after {
+            content: '+';
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+        
+        .accordion-text {
+            padding: 0 25px;
+            color: #555;
+            line-height: 1.7;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+        }
+        
+        .accordion-input:checked + .accordion-label {
+            background: linear-gradient(135deg, #7a1dc7 0%, #5a0d9d 100%);
+        }
+        
+        .accordion-input:checked + .accordion-label::before {
+            transform: scaleY(1);
+        }
+        
+        .accordion-input:checked + .accordion-label::after {
+            content: '−';
+            transform: rotate(0deg);
+        }
+        
+        .accordion-input:checked ~ .accordion-content {
+            max-height: 500px;
+            padding: 20px 0;
+        }
+        
+        .accordion-input:checked ~ .accordion-content .accordion-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            .accordion-label {
+                padding: 16px 20px;
+                font-size: 16px;
+            }
+            
+            .accordion-label::after {
+                font-size: 20px;
+            }
+            
+            .accordion-text {
+                padding: 0 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="accordion-container">
+        <div class="accordion">
+            <!-- Accordion Item 1 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion-1" class="accordion-input">
+                <label for="accordion-1" class="accordion-label">Social Media Strategy Creation: Develop customized strategies for clients, including:</label>
+                <div class="accordion-content">
+                    <p class="accordion-text">
+                        
+                            <li> Audience analysis</li>
+                            <li> Content planning</li>
+                            <li> Engagement tactics</li>
+                            <li>-Metrics tracking</li>
+                            
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Accordion Item 2 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion-2" class="accordion-input">
+                <label for="accordion-2" class="accordion-label">Content Creation and Curation: Create engaging content, including:</label>
+                <div class="accordion-content">
+                    <p class="accordion-text"> 
+
+                               <li>Posts text, images, videos</li>
+                                 <li> Stories</li>
+                                 <li>    Reels</li>
+                                    <li> Live streams</li>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Accordion Item 3 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion-3" class="accordion-input">
+                <label for="accordion-3" class="accordion-label">Account Setup and Optimization: Set up and optimize client social media accounts, including</label>
+                <div class="accordion-content">
+                    <p class="accordion-text">
+                         <li>Profile creation</li>
+                         <li>Profile optimization profile picture, bio, keywords</li>
+                         <li>Content setup</li>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Accordion Item 4 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion-4" class="accordion-input">
+                <label for="accordion-4" class="accordion-label">Ongoing Management and Monitoring: Manage and monitor client social media accounts, including:</label>
+                <div class="accordion-content">
+                    <p class="accordion-text">
+                        <li>Content scheduling</li>
+                            <li> Engagement responding to comments, messages</li>
+                            <li>  Analytics tracking</li>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Accordion Item 5 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion-5" class="accordion-input">
+                <label for="accordion-5" class="accordion-label">Website builder</label>
+                <div class="accordion-content">
+                    <p class="accordion-text">
+                        <li>dynamic</li>
+                        <li> static</li>
+                        <li>  domain</li>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Flipping Card</title>
+    <style>
+        /* CSS Styles */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 20px;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-front {
+            background-color: #6A2C70;
+            color: #fff;
+            border: 10px solid #6A2C70;
+            font-size: 24px;
+            transform: rotateY(0deg);
+        }
+
+        .card-back {
+            background-color: #F08A5D;
+            color: #fff;
+            border: 10px solid #F08A5D;
+            font-size: 24px;
+            transform: rotateY(180deg);
+        }
+
+        /* Optional: Add some content styling */
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML Structure -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="card-content">
+                    
+                    <p>  OUR SERVICE MENU    </p>
+                </div>
+            </div>
+            <div class="card-back">
+                <div class="card-content">
+                    
+                    <p> 
+                        <li>social media manager</li>
+                        <li>content creator</li>
+                        <li>brand manager</li>
+                        <li>email marketing</li>
+                        <li>website design</li>
+                        <li>affiliate marketin</li>
+                    </p>
+                        
+            
+                 
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
