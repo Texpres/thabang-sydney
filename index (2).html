@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelPulse Videos</title>
+    <style>
+        /* Full viewport height setup and blurry background */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .background {
+            background-image: url("ad.jpeg");
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        
+        /* Main content styling */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Header button styling */
+        .header-button {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .submit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+            text-transform: uppercase;
+            border: 0.1vw solid rgb(50, 50, 50);
+            box-shadow: 0 0 0.5vw black,
+                        0 0 0.5vw 0.1vw transparent,
+                        0vw 0 2vw -0.5vw black,
+                        0vw 0 2vw -0.5vw black,
+                        0 -1vw 1vw -1vw transparent inset;
+            padding: 0.4vw 0.55vw;
+            width: 6cm;
+            height: 3cm;
+            border-radius: 0.2vw;
+            cursor: pointer;
+            text-shadow: 0.05vw 0 0 white;
+            font-size: 0.8vw;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.8);
+            font-family: arial;
+            letter-spacing: 0.2vw;
+            transition: all 0.5s;
+            text-decoration: none;
+            margin: 0 auto;
+        }
+        
+        .submit:after {
+            content: "PIXELPULSE";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: transparent;
+            text-shadow: 1.8vw 1.8vw 1.2vw white;
+            text-transform: uppercase;
+            font-size: 0.8vw;
+            letter-spacing: 5.2vw;
+            transition: 0.5s;
+        }
+        
+        .submit:hover:after {
+            letter-spacing: 0.28vw;
+            text-shadow: 0.08vw 0vw 0 white;
+        }
+        
+        .submit:hover {
+            box-shadow: 0 0 2vw black,
+                        0 0 1.2vw 0.1vw black,
+                        4vw 0 2vw -0.5vw rgb(255, 0, 105),
+                        -4vw 0 2vw -0.5vw rgb(255, 0, 105),
+                        0 -1vw 1vw -1vw rgb(255, 0, 105) inset;
+            transform: scale(1.15, 1.15);
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 1.25vw;
+            letter-spacing: 1.28vw;
+            padding: 0.4vw 1vw;
+            text-shadow: 0 0 2vw white;
+            border-bottom: 0.1vw solid rgb(255, 0, 105);
+        }
+        
+        /* Video container styling */
+        .video-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .video-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Purple video player styling */
+        .purple-video-container {
+            display: flex;
+            border: 3px solid #8a2be2;
+        }
+        
+        .video-player-container {
+            width: 7.5cm;
+            height: 9cm;
+            background-color: #9370db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 3px solid #8a2be2;
+        }
+        
+        .video-player-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-info {
+            padding: 20px;
+            flex: 1;
+            background-color: rgba(230, 230, 250, 0.9);
+        }
+        
+        .video-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4b0082;
+        }
+        
+        .video-description {
+            color: #483d8b;
+            line-height: 1.5;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .submit {
+                width: 80%;
+                height: 4cm;
+                font-size: 3vw;
+            }
+            
+            .purple-video-container {
+                flex-direction: column;
+            }
+            
+            .video-player-container {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 5/6;
+                border-right: none;
+                border-bottom: 3px solid #8a2be2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Blurry Background -->
+    <div class="background"></div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Header Button -->
+        <div class="header-button">
+            <a href="pixelpulse.html" class="submit"></a>
+        </div>
+        
+        <!-- Welcome Video -->
+        <div class="video-section">
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video controls poster="thumbnail.jpg">
+                        <source src="welcome ad.mp4" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PixelPulse Video with Info -->
+        <div class="video-section">
+            <div class="video-container purple-video-container">
+                <div class="video-player-container">
+                    <video controls poster="https://via.placeholder.com/300x360/663399/ffffff?text=PIXELPULSE">
+                        <source src="PIXELPULSE.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="video-info">
+                    <h1 class="video-title">PIXELPULSE</h1>
+                    <p class="video-description">
+                        "Welcome to Pixel Pulse, your trusted partner for digital solutions. With years of experience, our team of experts is dedicated to delivering high-quality services that drive results. Our mission is to help businesses thrive in the digital landscape. Whether you're looking for web development, digital marketing, or creative design, we're here to help. Explore our website to learn more about our services and how we can support your goals."
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Video -->
+        <div class="video-section">
+            <div class="video-container purple-video-container">
+                <div class="video-player-container">
+                    <video controls poster="https://via.placeholder.com/300x360/663399/ffffff?text=CONTACT">
+                        <source src="THABANG AD.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <div class="video-info">
+                    <h1 class="video-title">CONTACT US</h1>
+                    <p class="video-description">
+                        <li>Phone: 079 678 5902</li>
+                        <li>Email: info@pixelpulse.co.za</li>
+                        <li>Website: www.pixelpulse.co.za</li>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
