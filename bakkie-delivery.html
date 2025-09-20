@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BakkieConnect - Delivery Platform</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'UberMove', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #000;
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #00cc66;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .user-actions button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid #00cc66;
+            color: #00cc66;
+        }
+        
+        .map-container {
+            height: 30vh;
+            background: #e8e8e8;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-placeholder {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #666;
+            font-size: 18px;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .map-placeholder i {
+            font-size: 48px;
+            color: #00cc66;
+        }
+        
+        .delivery-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-card.selected {
+            border: 2px solid #00cc66;
+        }
+        
+        .option-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #00cc66;
+        }
+        
+        .option-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .option-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .option-price {
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .order-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00cc66;
+        }
+        
+        .item-details h4 {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .item-details p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .item-controls button {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .item-quantity {
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+        }
+        
+        .total-price {
+            font-size: 20px;
+            color: #00cc66;
+        }
+        
+        .platform-fee {
+            color: #ff5722;
+        }
+        
+        .footer {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .order-button {
+            width: 100%;
+            padding: 16px;
+            border-radius: 30px;
+            border: none;
+            background: #00cc66;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .order-button:hover {
+            background: #00b359;
+        }
+        
+        .order-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .driver-matching {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.5s ease-in-out;
+            z-index: 100;
+        }
+        
+        .driver-matching.visible {
+            transform: translateY(0);
+        }
+        
+        .matching-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .matching-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .matching-status {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .matching-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            color: #00cc66;
+        }
+        
+        .matching-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .matching-progress {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .matching-progress-bar {
+            height: 100%;
+            background: #00cc66;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .driver-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #00cc66;
+        }
+        
+        .driver-details h4 {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .driver-details p {
+            color: #666;
+        }
+        
+        .driver-rating {
+            color: #ffc107;
+            margin-top: 4px;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .order-confirmed {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+        }
+        
+        .confirmed-icon {
+            font-size: 64px;
+            color: #00cc66;
+            margin-bottom: 16px;
+        }
+        
+        .confirmed-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .confirmed-text {
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .track-button {
+            padding: 12px 24px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .driver-form {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-submit {
+            background: #00cc66;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00cc66;
+            font-weight: bold;
+            margin-top: 16px;
+            justify-content: center;
+        }
+        
+        .profit-calculation {
+            background: #f9f9f9;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .profit-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .profit-total {
+            font-weight: bold;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+        
+        .driver-dashboard {
+            padding: 20px;
+        }
+        
+        .driver-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .driver-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        
+        .driver-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00cc66;
+            margin: 8px 0;
+        }
+        
+        .driver-stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .active-deliveries {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+        
+        .delivery-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .delivery-info h4 {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .delivery-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .delivery-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: #fff4e5;
+            color: #ff9500;
+        }
+        
+        .status-in-progress {
+            background: #e1f5fe;
+            color: #0288d1;
+        }
+        
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('delivery');
+            const [cart, setCart] = useState([
+                { id: 1, name: "Small Box", description: "30×30×30cm", price: 50, quantity: 1, icon: "box" },
+                { id: 2, name: "Documents", description: "Envelope", price: 25, quantity: 1, icon: "file" }
+            ]);
+            
+            const [deliveryOption, setDeliveryOption] = useState('standard');
+            const [isMatching, setIsMatching] = useState(false);
+            const [matchProgress, setMatchProgress] = useState(0);
+            const [driverMatched, setDriverMatched] = useState(false);
+            const [orderConfirmed, setOrderConfirmed] = useState(false);
+            
+            const [driverForm, setDriverForm] = useState({
+                name: '',
+                email: '',
+                phone: '',
+                idNumber: '',
+                bakkieModel: '',
+                bakkieYear: '',
+                licensePlate: '',
+                bankAccount: ''
+            });
+            
+            // Sample driver data
+            const [driverData, setDriverData] = useState({
+                completedDeliveries: 12,
+                totalEarnings: 1240,
+                rating: 4.8,
+                scheduledDeliveries: 3
+            });
+            
+            // Sample active deliveries
+            const [activeDeliveries, setActiveDeliveries] = useState([
+                { id: 1, from: "123 Main St", to: "456 Oak Ave", status: "in-progress", price: 85 },
+                { id: 2, from: "789 Pine Rd", to: "321 Elm Blvd", status: "pending", price: 120 },
+                { id: 3, from: "654 Cedar Ln", to: "987 Birch St", status: "completed", price: 65 }
+            ]);
+            
+            const deliveryOptions = [
+                {
+                    id: 'standard',
+                    name: 'Standard',
+                    description: '2-3 hours delivery',
+                    price: 40,
+                    icon: 'shipping-fast'
+                },
+                {
+                    id: 'express',
+                    name: 'Express',
+                    description: 'Within 1 hour',
+                    price: 80,
+                    icon: 'bolt'
+                },
+                {
+                    id: 'same-day',
+                    name: 'Same Day',
+                    description: 'By end of day',
+                    price: 60,
+                    icon: 'clock'
+                },
+                {
+                    id: 'scheduled',
+                    name: 'Scheduled',
+                    description: 'Pick a time',
+                    price: 50,
+                    icon: 'calendar'
+                }
+            ];
+            
+            const driver = {
+                name: 'Thomas Mbeki',
+                rating: 4.8,
+                vehicle: 'Toyota Hilux',
+                license: 'BKK 123 EC',
+                eta: '7 min'
+            };
+            
+            const calculateSubtotal = () => {
+                return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            };
+            
+            const getDeliveryPrice = () => {
+                const option = deliveryOptions.find(opt => opt.id === deliveryOption);
+                return option ? option.price : 0;
+            };
+            
+            const calculateTotal = () => {
+                return calculateSubtotal() + getDeliveryPrice();
+            };
+            
+            const calculatePlatformFee = () => {
+                return calculateTotal() * 0.6; // 60% platform fee
+            };
+            
+            const calculateDriverEarnings = () => {
+                return calculateTotal() * 0.4; // 40% driver earnings
+            };
+            
+            const updateQuantity = (id, change) => {
+                setCart(prevCart => {
+                    return prevCart.map(item => {
+                        if (item.id === id) {
+                            const newQuantity = item.quantity + change;
+                            if (newQuantity < 1) return item;
+                            return { ...item, quantity: newQuantity };
+                        }
+                        return item;
+                    });
+                });
+            };
+            
+            const removeItem = (id) => {
+                setCart(prevCart => prevCart.filter(item => item.id !== id));
+            };
+            
+            const handleOrder = () => {
+                setIsMatching(true);
+                
+                // Simulate matching process
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    setMatchProgress(progress);
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        setDriverMatched(true);
+                        
+                        // Show order confirmed after a delay
+                        setTimeout(() => {
+                            setOrderConfirmed(true);
+                        }, 1500);
+                    }
+                }, 150);
+            };
+            
+            const handleDriverFormChange = (e) => {
+                const { name, value } = e.target;
+                setDriverForm(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+            
+            const handleDriverSubmit = (e) => {
+                e.preventDefault();
+                alert('Driver application submitted successfully! We will review your information and contact you soon.');
+                setDriverForm({
+                    name: '',
+                    email: '',
+                    phone: '',
+                    idNumber: '',
+                    bakkieModel: '',
+                    bakkieYear: '',
+                    licensePlate: '',
+                    bankAccount: ''
+                });
+                
+                // Switch to driver dashboard after registration
+                setActiveTab('driver-dashboard');
+            };
+            
+            const getIcon = (iconName) => {
+                switch(iconName) {
+                    case 'box': return <i className="fas fa-box"></i>;
+                    case 'file': return <i className="fas fa-file-alt"></i>;
+                    case 'couch': return <i className="fas fa-couch"></i>;
+                    case 'tv': return <i className="fas fa-tv"></i>;
+                    default: return <i className="fas fa-box"></i>;
+                }
+            };
+            
+            const getStatusBadge = (status) => {
+                switch(status) {
+                    case 'pending':
+                        return <span className="delivery-status status-pending">Pending</span>;
+                    case 'in-progress':
+                        return <span className="delivery-status status-in-progress">In Progress</span>;
+                    case 'completed':
+                        return <span className="delivery-status status-completed">Completed</span>;
+                    default:
+                        return <span className="delivery-status status-pending">Pending</span>;
+                }
+            };
+            
+            return (
+                <div className="app-container">
+                    <header className="header">
+                        <div className="logo">Bakkie<span>Connect</span></div>
+                        <div className="user-actions">
+                            <button>
+                                <i className="fas fa-question-circle"></i>
+                            </button>
+                        </div>
+                    </header>
+                    
+                    <div className="tab-container">
+                        <div className={`tab ${activeTab === 'delivery' ? 'active' : ''}`} onClick={() => setActiveTab('delivery')}>
+                            Order Delivery
+                        </div>
+                        <div className={`tab ${activeTab === 'driver' ? 'active' : ''}`} onClick={() => setActiveTab('driver')}>
+                            Become a Driver
+                        </div>
+                        <div className={`tab ${activeTab === 'driver-dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('driver-dashboard')}>
+                            Driver Dashboard
+                        </div>
+                    </div>
+                    
+                    <main className="main-content">
+                        {/* Delivery tab - for customers */}
+                        {activeTab === 'delivery' && (
+                            <>
+                                <div className="map-container">
+                                    <div className="map-placeholder">
+                                        <i className="fas fa-map-marker-alt"></i>
+                                        <p>Delivery tracking will appear here</p>
+                                    </div>
+                                </div>
+                                
+                                <h3>Choose delivery option</h3>
+                                <div className="delivery-options">
+                                    {deliveryOptions.map(option => (
+                                        <div 
+                                            key={option.id}
+                                            className={`option-card ${deliveryOption === option.id ? 'selected' : ''}`}
+                                            onClick={() => setDeliveryOption(option.id)}
+                                        >
+                                            <div className="option-icon">
+                                                <i className={`fas fa-${option.icon}`}></i>
+                                            </div>
+                                            <div className="option-name">{option.name}</div>
+                                            <div className="option-desc">{option.description}</div>
+                                            <div className="option-price">R{option.price}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="order-section">
+                                    <div className="section-title">
+                                        <span>Your order</span>
+                                        <span>{cart.length} items</span>
+                                    </div>
+                                    
+                                    <div className="items-list">
+                                        {cart.map(item => (
+                                            <div key={item.id} className="item-row">
+                                                <div className="item-info">
+                                                    <div className="item-icon">
+                                                        {getIcon(item.icon)}
+                                                    </div>
+                                                    <div className="item-details">
+                                                        <h4>{item.name}</h4>
+                                                        <p>{item.description}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="item-controls">
+                                                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                                                    <span className="item-quantity">{item.quantity}</span>
+                                                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="price-section">
+                                        <div>Subtotal</div>
+                                        <div>R{calculateSubtotal()}</div>
+                                    </div>
+                                    
+                                    <div className="price-section">
+                                        <div>Delivery fee</div>
+                                        <div>R{getDeliveryPrice()}</div>
+                                    </div>
+                                    
+                                    <div className="price-section platform-fee">
+                                        <div>Platform fee (60%)</div>
+                                        <div>R{calculatePlatformFee()}</div>
+                                    </div>
+                                    
+                                    <div className="price-section">
+                                        <div>Total</div>
+                                        <div className="total-price">R{calculateTotal()}</div>
+                                    </div>
+                                    
+                                    <div className="profit-calculation">
+                                        <div className="profit-row">
+                                            <div>Driver will earn:</div>
+                                            <div>R{calculateDriverEarnings()}</div>
+                                        </div>
+                                        <div className="profit-row profit-total">
+                                            <div>Platform earnings (60%):</div>
+                                            <div>R{calculatePlatformFee()}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        
+                        {/* Driver registration tab */}
+                        {activeTab === 'driver' && (
+                            <div className="driver-form">
+                                <h3>Register Your Bakkie</h3>
+                                <p>Join our network of delivery drivers and start earning money with your bakkie.</p>
+                                
+                                <form onSubmit={handleDriverSubmit}>
+                                    <div className="form-group">
+                                        <label>Full Name</label>
+                                        <input 
+                                            type="text" 
+                                            name="name"
+                                            value={driverForm.name}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Email Address</label>
+                                        <input 
+                                            type="email" 
+                                            name="email"
+                                            value={driverForm.email}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Phone Number</label>
+                                        <input 
+                                            type="tel" 
+                                            name="phone"
+                                            value={driverForm.phone}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>ID Number</label>
+                                        <input 
+                                            type="text" 
+                                            name="idNumber"
+                                            value={driverForm.idNumber}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Bakkie Model</label>
+                                        <input 
+                                            type="text" 
+                                            name="bakkieModel"
+                                            value={driverForm.bakkieModel}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Bakkie Year</label>
+                                        <input 
+                                            type="number" 
+                                            name="bakkieYear"
+                                            value={driverForm.bakkieYear}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>License Plate</label>
+                                        <input 
+                                            type="text" 
+                                            name="licensePlate"
+                                            value={driverForm.licensePlate}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Bank Account Number</label>
+                                        <input 
+                                            type="text" 
+                                            name="bankAccount"
+                                            value={driverForm.bankAccount}
+                                            onChange={handleDriverFormChange}
+                                            required 
+                                        />
+                                    </div>
+                                    
+                                    <button type="submit" className="form-submit">
+                                        Register as Driver
+                                    </button>
+                                    
+                                    <div className="security-badge">
+                                        <i className="fas fa-shield-alt"></i>
+                                        <span>Secure & Encrypted Application</span>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
+                        
+                        {/* Driver dashboard */}
+                        {activeTab === 'driver-dashboard' && (
+                            <div className="driver-dashboard">
+                                <h3>Driver Dashboard</h3>
+                                <p>Welcome to your driver dashboard. Here you can manage your deliveries and earnings.</p>
+                                
+                                <div className="driver-stats">
+                                    <div className="driver-stat-card">
+                                        <div className="driver-stat-value">{driverData.completedDeliveries}</div>
+                                        <div className="driver-stat-label">Completed Deliveries</div>
+                                    </div>
+                                    
+                                    <div className="driver-stat-card">
+                                        <div className="driver-stat-value">R{driverData.totalEarnings}</div>
+                                        <div className="driver-stat-label">Total Earnings</div>
+                                    </div>
+                                    
+                                    <div className="driver-stat-card">
+                                        <div className="driver-stat-value">{driverData.rating}</div>
+                                        <div className="driver-stat-label">Your Rating</div>
+                                    </div>
+                                    
+                                    <div className="driver-stat-card">
+                                        <div className="driver-stat-value">{driverData.scheduledDeliveries}</div>
+                                        <div className="driver-stat-label">Scheduled Deliveries</div>
+                                    </div>
+                                </div>
+                                
+                                <div className="active-deliveries">
+                                    <h4>Active Deliveries</h4>
+                                    {activeDeliveries.map(delivery => (
+                                        <div key={delivery.id} className="delivery-item">
+                                            <div className="delivery-info">
+                                                <h4>From: {delivery.from}</h4>
+                                                <p>To: {delivery.to}</p>
+                                                <p>Amount: R{delivery.price}</p>
+                                            </div>
+                                            {getStatusBadge(delivery.status)}
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="security-badge">
+                                    <i className="fas fa-shield-alt"></i>
+                                    <span>Secure Driver Portal</span>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                    
+                    {activeTab === 'delivery' && (
+                        <footer className="footer">
+                            <button 
+                                className="order-button"
+                                onClick={handleOrder}
+                                disabled={cart.length === 0}
+                            >
+                                <i className="fas fa-truck"></i>
+                                Order Bakkie Delivery
+                            </button>
+                        </footer>
+                    )}
+                    
+                    <div className={`driver-matching ${isMatching ? 'visible' : ''}`}>
+                        <div className="matching-header">
+                            <div className="matching-title">Matching you with a driver</div>
+                            <button onClick={() => setIsMatching(false)}>
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div className="matching-status">
+                            <div className="matching-icon">
+                                <i className="fas fa-truck"></i>
+                            </div>
+                            {!driverMatched ? (
+                                <>
+                                    <div className="matching-text">Finding nearest driver...</div>
+                                    <div className="matching-progress">
+                                        <div className="matching-progress-bar" style={{width: `${matchProgress}%`}}></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="matching-text">Driver matched!</div>
+                                    <div className="driver-info">
+                                        <div className="driver-avatar">
+                                            <i className="fas fa-user"></i>
+                                        </div>
+                                        <div className="driver-details">
+                                            <h4>{driver.name}</h4>
+                                            <p>{driver.vehicle} • {driver.license}</p>
+                                            <div className="driver-rating">
+                                                <i className="fas fa-star"></i>
+                                                {driver.rating}
+                                            </div>
+                                        </div>
+                                        <div className="driver-eta">
+                                            ETA: {driver.eta}
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                    
+                    <div className={`overlay ${orderConfirmed ? 'visible' : ''}`}>
+                        <div className="order-confirmed">
+                            <div className="confirmed-icon">
+                                <i className="fas fa-check-circle"></i>
+                            </div>
+                            <h3 className="confirmed-title">Order Confirmed!</h3>
+                            <p className="confirmed-text">Your driver is on the way to pickup your items</p>
+                            <p className="confirmed-text">Platform fee of R{calculatePlatformFee()} has been secured</p>
+                            <button className="track-button" onClick={() => {
+                                setOrderConfirmed(false);
+                                setIsMatching(false);
+                                setDriverMatched(false);
+                                setMatchProgress(0);
+                            }}>
+                                Track Delivery
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
